@@ -1,0 +1,60 @@
+﻿
+<div id="app">
+    <div class="row">
+        <div class="col col-lg-2 mx-auto">
+            @* two buttons *@
+            <button v-on:click="showCategories" class="btn btn-outline-info">Categories</button>
+            <button v-on:click="showProducts()" class="btn btn-outline-info">Products</button>
+        </div>
+    </div>
+    @* loading spinner *@
+    <div v-if="loading" class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only"></span>
+        </div>
+    </div>
+    @* error div *@
+    <div v-if="hasError" class="row">
+        <div class="col col-lg-6 mx-auto">
+            <div class="alert alert-danger">{{errorMessage}}</div>
+        </div>
+    </div>
+    <div v-if="categoriesVisible" class="row">
+        @* show categories *@
+        <h5>Categories</h5>
+        <div v-for="category in categories" class="col col-lg-3 mb-2">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{category.name}}</h5>
+                    <button v-on:click="showProducts(category.id)" class="btn btn-primary">Show products</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-if="productsVisible" class="row">
+        @* show products *@
+        <h5>Products</h5>
+        <div class="row">
+            <div v-for="product in products" class="col col-lg-4 mb-2 text-center">
+                <div class="card" style="width: 18rem;">
+                    <!--tips: add .text-center,.text-right to the .card to change card text alignment-->
+                    <img v-bind:src="product.image" class="card-img-top p-2 img-fluid" v-bind:alt="product.name">
+                    <div class="card-body">
+                        <h5 class="card-title">{{product.name}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{product.category}}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">&euro; {{product.price}}</h6>
+                        <span v-for="property in product.properties" class="card-text">{{property}} </span>
+                        <div class="card-footer text-center">
+                            <a href="#" class="btn btn-primary">Info</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @* end of vue app *@
+</div>
+
+
+@* load app.js *@
+<script src="~/js/app.js"></script>
