@@ -35,6 +35,13 @@
         @* show products *@
         <h5>Products</h5>
         <div class="row">
+            <div class="col col-lg-3 mb-1">
+                <button v-on:click="showAddProductModal" class="btn btn-outline-info">
+                    New product
+                </button>
+            </div>
+        </div>
+        <div class="row">
             <div v-for="product in products" class="col col-lg-4 mb-2 text-center">
                 <div class="card" style="width: 18rem;">
                     <!--tips: add .text-center,.text-right to the .card to change card text alignment-->
@@ -46,12 +53,63 @@
                         <span v-for="property in product.properties" class="card-text">{{property}} </span>
                         <div class="card-footer text-center">
                             <a href="#" class="btn btn-primary">Info</a>
+                            <a v-on:click="deleteProduct(product.id)" class="btn btn-danger">Delete</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    @* modals *@
+    @* product add modal *@
+<div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProductModalTitle">New product</h5>
+                <button type="button" class="close" v-on:click="hideAddProductModal" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!--Modal content-->
+                <form>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input v-model="productDto.name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input v-model="productDto.price" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select v-model="productDto.categoryId" class="form-control">
+                            <option v-for="category in categories" v-bind:value="category.id">
+                            {{category.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Properties</label>
+                        <select multiple v-model="productDto.propertyIds" class="form-control">
+                            <option v-for="property in properties" v-bind:value="property.id">
+                                {{property.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Image</label>
+                        <input id="productImage" type="file" v-on:change="getFile" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" v-on:click="hideAddProductModal" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" v-on:click="addProduct" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
     @* end of vue app *@
 </div>
 
